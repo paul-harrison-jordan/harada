@@ -3,6 +3,23 @@ import Link from 'next/link'
 import { getUser, signOut } from '@/app/actions/auth'
 import { getOrCreateChart } from '@/app/actions/chart'
 import { getCompletedCycles, getWeeklyActions } from '@/app/actions/cycle'
+import { WeeklyCycle } from '@/lib/types'
+
+interface WeeklyActionWithCell {
+  id: string
+  completion_status: string
+  reflection_notes: string
+  score: number | null
+  cell: {
+    content: string
+    row_index: number
+    col_index: number
+  }
+}
+
+interface CycleWithActions extends WeeklyCycle {
+  actions: WeeklyActionWithCell[]
+}
 
 export default async function CalendarPage() {
   const user = await getUser()
@@ -15,10 +32,10 @@ export default async function CalendarPage() {
   const completedCycles = await getCompletedCycles(chart.id)
 
   // Fetch weekly actions for each completed cycle
-  const cyclesWithActions = await Promise.all(
+  const cyclesWithActions: CycleWithActions[] = await Promise.all(
     completedCycles.map(async (cycle) => ({
       ...cycle,
-      actions: await getWeeklyActions(cycle.id),
+      actions: await getWeeklyActions(cycle.id) as WeeklyActionWithCell[],
     }))
   )
 
