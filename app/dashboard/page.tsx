@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { getUser, signOut } from '@/app/actions/auth'
 import { getOrCreateChart, getChartCells, updateCell } from '@/app/actions/chart'
 import HaradaGrid from '@/components/HaradaGrid'
@@ -21,21 +22,33 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-sm border-b-2 border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              Welcome, {user.user_metadata?.full_name || user.email}
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-900">Harada Method Chart</h1>
           </div>
-          <form action={signOut}>
-            <button
-              type="submit"
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors"
+          <div className="flex gap-4">
+            <Link
+              href="/"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors font-medium"
             >
-              Sign Out
-            </button>
-          </form>
+              Home
+            </Link>
+            <Link
+              href="/calendar"
+              className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg transition-colors font-medium"
+            >
+              Calendar
+            </Link>
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg transition-colors font-medium"
+              >
+                Sign Out
+              </button>
+            </form>
+          </div>
         </div>
       </header>
 

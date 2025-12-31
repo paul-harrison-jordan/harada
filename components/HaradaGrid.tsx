@@ -46,12 +46,20 @@ export default function HaradaGrid({ cells, onCellUpdate }: HaradaGridProps) {
             const cell = cellMap.get(`${row}-${col}`)
             const metadata = getCellMetadata(row, col)
 
+            // For behavior mirrors, get the content from the original behavior cell
+            let behaviorCell: ChartCell | undefined
+            if (metadata.type === 'behavior_mirror' && metadata.mirrorsBehaviorAt) {
+              const behaviorKey = `${metadata.mirrorsBehaviorAt.row}-${metadata.mirrorsBehaviorAt.col}`
+              behaviorCell = cellMap.get(behaviorKey)
+            }
+
             return (
               <HaradaCell
                 key={`${row}-${col}`}
                 row={row}
                 col={col}
                 cell={cell}
+                behaviorCell={behaviorCell}
                 onUpdate={handleCellUpdate}
               />
             )
@@ -67,18 +75,18 @@ export default function HaradaGrid({ cells, onCellUpdate }: HaradaGridProps) {
       )}
 
       {/* Legend */}
-      <div className="mt-6 flex justify-center gap-6 text-sm">
+      <div className="mt-6 flex justify-center gap-6 text-base font-medium">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-blue-50 border border-blue-400"></div>
-          <span>🎯 Main Goal</span>
+          <div className="w-5 h-5 bg-blue-100 border-2 border-blue-600"></div>
+          <span className="text-gray-900">🎯 Main Goal</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-50 border border-green-300"></div>
-          <span>⭐ Key Behaviors</span>
+          <div className="w-5 h-5 bg-green-100 border-2 border-green-600"></div>
+          <span className="text-gray-900">⭐ Key Behaviors</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-gray-50 border border-gray-200"></div>
-          <span>✓ Actions</span>
+          <div className="w-5 h-5 bg-white border-2 border-gray-400"></div>
+          <span className="text-gray-900">✓ Actions</span>
         </div>
       </div>
     </div>

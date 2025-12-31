@@ -1,4 +1,4 @@
-export type CellType = 'goal' | 'behavior' | 'action'
+export type CellType = 'goal' | 'behavior' | 'behavior_mirror' | 'action'
 
 export interface HaradaChart {
   id: string
@@ -27,6 +27,7 @@ export interface GridPosition {
 export interface CellMetadata {
   type: CellType
   belongsToSection?: number // 0-8 for sections, undefined for center cells
+  mirrorsBehaviorAt?: { row: number, col: number } // For behavior_mirror cells
 }
 
 export type CycleStatus = 'planned' | 'in_progress' | 'completed'
