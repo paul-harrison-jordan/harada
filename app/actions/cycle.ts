@@ -32,19 +32,20 @@ export async function getCurrentCycle(chartId: string) {
   const monday = getMonday(new Date())
   const sunday = getSunday(new Date())
 
-  // Try to find existing cycle for this week
+  // Try to find existing cycle for this week that is not completed
   const { data: existingCycle } = await supabase
     .from('weekly_cycles')
     .select('*')
     .eq('chart_id', chartId)
     .eq('week_start_date', monday.toISOString().split('T')[0])
+    .neq('status', 'completed')
     .single()
 
   if (existingCycle) {
     return existingCycle
   }
 
-  // Create new cycle if none exists
+  // Create new cycle if none exists or if the existing one is completed
   const { data: newCycle, error } = await supabase
     .from('weekly_cycles')
     .insert({

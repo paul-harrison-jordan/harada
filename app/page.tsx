@@ -183,72 +183,11 @@ export default async function Home() {
             </div>
           )}
 
-          {/* Completed State */}
+          {/* Completed State - Should not show since getCurrentCycle filters these out */}
           {currentCycle.status === 'completed' && (
-            <div className="space-y-6">
-              <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 text-lg">Week Started With:</h3>
-                <p className="text-gray-800 whitespace-pre-wrap">{currentCycle.start_journal}</p>
-              </div>
-
-              {/* Show completed actions */}
-              {weeklyActions.length > 0 && (
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Actions Completed</h3>
-                  <div className="space-y-3">
-                    {weeklyActions.map((action, index) => (
-                      <div
-                        key={action.id}
-                        className="bg-white border-2 border-gray-300 rounded-lg p-4"
-                      >
-                        <div className="flex items-start gap-3">
-                          <span className="text-xl font-bold text-blue-600">{index + 1}</span>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-gray-900 mb-1">
-                              {action.cell.content}
-                            </h4>
-                            <div className="flex items-center gap-4 mb-2">
-                              <span className={`px-3 py-1 rounded-full text-sm font-bold border-2 ${
-                                action.completion_status === 'completed'
-                                  ? 'bg-green-100 text-green-800 border-green-400'
-                                  : action.completion_status === 'in_progress'
-                                  ? 'bg-blue-100 text-blue-800 border-blue-400'
-                                  : action.completion_status === 'partial'
-                                  ? 'bg-yellow-100 text-yellow-800 border-yellow-400'
-                                  : 'bg-gray-100 text-gray-800 border-gray-400'
-                              }`}>
-                                {action.completion_status === 'not_started' ? 'Not Started' :
-                                 action.completion_status === 'in_progress' ? 'In Progress' :
-                                 action.completion_status === 'completed' ? 'Completed' :
-                                 action.completion_status === 'partial' ? 'Partial' : 'Skipped'}
-                              </span>
-                              {action.score && (
-                                <span className="text-yellow-500 font-bold">
-                                  {'★'.repeat(action.score)}{'☆'.repeat(5 - action.score)} ({action.score}/5)
-                                </span>
-                              )}
-                            </div>
-                            {action.reflection_notes && (
-                              <div className="bg-gray-50 border border-gray-300 rounded p-3 mt-2">
-                                <p className="text-gray-800 text-sm whitespace-pre-wrap">
-                                  {action.reflection_notes}
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="bg-green-50 border-2 border-green-300 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 text-lg">Week Completed With:</h3>
-                <p className="text-gray-800 whitespace-pre-wrap">{currentCycle.end_review}</p>
-              </div>
-              <p className="text-center text-gray-700 font-medium text-lg">
-                This week is complete! Check back on Monday to start a new week.
+            <div className="bg-red-50 border-2 border-red-400 rounded-lg p-6 text-center">
+              <p className="text-red-800 font-semibold">
+                This cycle was already completed. Please refresh the page to see your new week.
               </p>
             </div>
           )}
